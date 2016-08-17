@@ -5,4 +5,4 @@ let 1 λf.λx.f x
 let 2 λf.λx.f (f x)
 let 3 λf.λx.f (f (f x))
 
-let main + 0 1
+let main + 1 2

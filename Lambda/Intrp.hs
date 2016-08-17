@@ -3,6 +3,7 @@ module Lambda.Intrp(intrp) where
 import Lambda.Stmt
 import Control.Monad
 import Data.Either
+import Debug.Trace
 
 newtype Intrp a = Intrp { runItrp :: Scope -> Either IntrpError (a, Scope) }
 data IntrpError = IntrpError String deriving (Show)
@@ -34,14 +35,18 @@ pop = Intrp $ \r -> Right ((), tail r)
 
 reduce (V n) = do
     v <- get n
-    if v == (V n) then return (V n)
-    else reduce v
+    traceM $ "get var: " ++ show (V n) ++ " --> " ++ show v
+    return v
+--    if v == (V n) then return (V n)
+--    else reduce v
 
 reduce (L v s) = do
+    traceM $ "reduce: " ++ show (L v s)
     s' <- reduce s
     return $ L v s'
 
 reduce (A (L v s) r) = do
+    traceM $ "apply: " ++ show r ++ " on " ++ show (L v s)
     r' <- reduce r
     push v r'
     s' <- reduce s
@@ -49,6 +54,7 @@ reduce (A (L v s) r) = do
     return s'
 
 reduce (A l r) = do
+    traceM $ "apply: " ++ show r ++ " on " ++ show l
     l' <- reduce l
     r' <- reduce r
     if l' == l then return $ A l' r'
