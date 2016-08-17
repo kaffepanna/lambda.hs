@@ -1,8 +1,8 @@
-let succ λn.λf.λx.f (n f x)
-let + λm.λn.λf.λx.m f (n f x)
-let 0 λf.λx.x
-let 1 λf.λx.f x
-let 2 λf.λx.f (f x)
-let 3 λf.λx.f (f (f x))
+succ := λn.λf.λx.f (n f x)
++ := λm.λn.λf.λx.m f (n f x)
+0 := λf.λx.x
+1 := succ 0
+2 := succ 1
+3 := succ 2
 
-let main + 1 2
+main := + 1 2

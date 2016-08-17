@@ -37,8 +37,6 @@ reduce (V n) = do
     v <- get n
     traceM $ "get var: " ++ show (V n) ++ " --> " ++ show v
     return v
---    if v == (V n) then return (V n)
---    else reduce v
 
 reduce (L v s) = do
     traceM $ "reduce: " ++ show (L v s)
@@ -64,4 +62,3 @@ intrp p = case lookup "main" p of
     Just main -> fmap fst (runItrp (reduce main) p)
     Nothing -> Left $ IntrpError "main not defined"
 
----r:tunItrp (reduce e) p

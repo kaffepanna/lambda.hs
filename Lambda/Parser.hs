@@ -48,8 +48,8 @@ funct = do
     return $ L v b
 
 assign = do
-    tok Let
     v <- str
+    tok Let
     e <- expr
     return $ (v, e)
 

@@ -29,7 +29,7 @@ parsePos p = (,) <$> p <*> getPosition
 lambda, period, assign, eol, lparen, rparen :: Parser TokenPos
 period  = parsePos $ char '.' >> return Period
 lambda  = parsePos $ (char '\\' <|> char 'λ') >> return Lambda
-assign  = parsePos $ string "let" >> return Let
+assign  = parsePos $ string ":=" >> return Let
 eol     = parsePos $ char '\n' >> return EOL
 lparen  = parsePos $ char '(' >> return Lparen
 rparen  = parsePos $ char ')' >> return Rparen
