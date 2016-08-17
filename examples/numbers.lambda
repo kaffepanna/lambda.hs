@@ -1,0 +1,8 @@
+let succ λn.λf.λx.f (n f x)
+let + λm.λn.λf.λx.m f (n f x)
+let 0 λf.λx.x
+let 1 λf.λx.f x
+let 2 λf.λx.f (f x)
+let 3 λf.λx.f (f (f x))
+
+let main + 0 1
