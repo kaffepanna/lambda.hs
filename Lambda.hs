@@ -1,14 +1,25 @@
+{-# LANGUAGE FlexibleContexts #-}
 import Lambda.Stmt
 import Lambda.Parser
 import Lambda.Intrp
 import System.Environment
+import Control.Monad.Except
 
-main = do
-    fname <- getArgs
-    input <- readFile (head fname)
-    case lparse (head fname) input of
-      Left msg -> putStrLn $ show msg
-      Right p -> case intrp p of
-        Left msg -> putStrLn $ show msg
-        Right r -> putStrLn $ show r
+strErr :: (MonadError String m, Show e) => Either e a -> m a
+strErr = either (throwError . show) return
+
+
+main = (either (putStrLn) (putStrLn . show)) <=< runExceptT $ do
+  fname <- liftIO getArgs
+  input <- liftIO $ readFile (head fname)
+  prog <- strErr $ lparse (head fname) input
+  strErr $ intrp prog
+
+
+
+
+
+
+
+
 
